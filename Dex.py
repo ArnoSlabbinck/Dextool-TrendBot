@@ -4,7 +4,7 @@ from selenium.webdriver.chrome import options
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import time
-
+import threading
 import random
 
 proxies = {
@@ -42,9 +42,18 @@ def ma_ip():
 def randomNumber(min, max): 
     return random.randint(min, max)
 
-while True:
-    driver.get(url)
-    print ('[+] Your IP was for this refresh : '+str(ma_ip()))
-    time.sleep(timeASleep)
-    number = randomNumber(1, HugoButtonsDict.__len__())
-    button = driver.find_element_by_xpath(HugoButtonsDict[number]).click()
+def main(): 
+    while True:
+        driver.get(url)
+        print ('[+] Your IP was for this refresh : '+str(ma_ip()))
+        time.sleep(timeASleep)
+        number = randomNumber(1, HugoButtonsDict.__len__())
+        button = driver.find_element_by_xpath(HugoButtonsDict[number]).click()
+
+if __name__ == "__main__": 
+    t1 = threading.Thread(target=main, daemon=True)
+    t1.start()
+
+
+
+
