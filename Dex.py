@@ -51,9 +51,7 @@ def main():
         button = driver.find_element_by_xpath(HugoButtonsDict[number]).click()
 
 if __name__ == "__main__": 
-    t1 = threading.Thread(target=main, daemon=True)
-    t1.start()
-
+    main()
 
 
 
