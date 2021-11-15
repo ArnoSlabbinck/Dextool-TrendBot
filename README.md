@@ -5,3 +5,7 @@ the crypto in question
 
 We use basic Web scraping to get the data from the site and see where we rank
 If there's a change by continous clicking and we get more popular we know the algorithm is being fooled
+
+
+In order to run this script 24hours i set up a DigitalOcean Droplet Ubuntu server with a GUI so I can run the script from there
+The second script will be my own Tradebot. The chances of fooling the algorithm that way will be higher and probabilistically much better
