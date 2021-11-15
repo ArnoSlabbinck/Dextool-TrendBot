@@ -1,3 +1,4 @@
+from typing import List, cast
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome import options
@@ -19,6 +20,12 @@ HugoButtonsDict = {
     4: "/html/body/app-root/div[2]/div/main/app-exchange/div/app-pairexplorer/app-layout/div/div/div[1]/div[1]/h3/div/div[1]/a[1]"
 }
 
+
+
+cryptos = []
+timeStopProgram = 60 * 60 * 24
+timeToWait = 60 * 10
+timeRunningProgram = 0
 timeASleep = 5
 print("[+] Dextools Bot Starting")
 options = Options()
@@ -33,6 +40,29 @@ print("[+] Go for settings. You have 120 seconds!!")
 driver.implicitly_wait(30)
 time.sleep(timeASleep)
 
+def findAllCryptosInBanner(substring): 
+    banner4 = driver.find_elements_by_class_name('ng-star-inserted')
+    counter = 0
+    try: 
+       for items in banner4: 
+        if substring in items.text: 
+            print('Found')
+            print('Hugo finance on place: {0}'.format(counter))
+        counter += 1
+    except: 
+        print("An exception occured")
+
+   
+
+
+#Programma naar een Daemon zetten
+
+def checkTimeProgram(RunTime): 
+    if(RunTime >= timeStopProgram): 
+        return False
+    else: 
+        return True
+
 def ma_ip():
     
     url='https://www.myexternalip.com/raw'
@@ -42,16 +72,32 @@ def ma_ip():
 def randomNumber(min, max): 
     return random.randint(min, max)
 
-def main(): 
-    while True:
+
+def checktop10spot(): 
+    return 0
+
+def main(RunTime): 
+    while (checkTimeProgram(RunTime)):
         driver.get(url)
         print ('[+] Your IP was for this refresh : '+str(ma_ip()))
+        findAllCryptosInBanner('Hugo')
         time.sleep(timeASleep)
+        RunTime += timeToWait
         number = randomNumber(1, HugoButtonsDict.__len__())
-        button = driver.find_element_by_xpath(HugoButtonsDict[number]).click()
+        driver.find_element_by_xpath(HugoButtonsDict[number]).click()
+
+        
 
 if __name__ == "__main__": 
-    main()
+    main(timeRunningProgram)
+
+# Een timer instellen van hoe lang het program draait
+# Altijd checken van time 
+# Als time reached program ==> 
 
 
 
+# mAKEN van een automatische check of het algoritme gefoold wordt of niet
+# Om het uur de top 10 checken van de banner 
+# Als Hugo positie in banner verschijnt
+# Dan Email versturen naar mij om waarschuwing te geven 
