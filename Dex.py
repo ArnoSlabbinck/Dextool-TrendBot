@@ -80,7 +80,7 @@ def main(RunTime):
     while (checkTimeProgram(RunTime)):
         driver.get(url)
         print ('[+] Your IP was for this refresh : '+str(ma_ip()))
-        findAllCryptosInBanner('Hugo')
+        findAllCryptosInBanner('(Hugo Finance)')
         time.sleep(timeASleep)
         RunTime += timeToWait
         number = randomNumber(1, HugoButtonsDict.__len__())
