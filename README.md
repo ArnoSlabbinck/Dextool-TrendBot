@@ -4,7 +4,7 @@ Time restrictions and see where the crypto is being ranked by the algoritm. By c
 the crypto in question
 
 We use basic Web scraping to get the data from the site and see where we rank
-If there's a change by continous clicking and we get more popular we know the algorithm is being fooled
+If there's a change by continous clicking and if  we get more popular we know the algorithm is being fooled
 
 
 In order to run this script 24hours i set up a DigitalOcean Droplet Ubuntu server with a GUI so I can run the script from there
