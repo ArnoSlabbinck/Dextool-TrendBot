@@ -1,5 +1,6 @@
 from typing import List, cast
 import requests
+from requests.sessions import _ParamsMappingKeyType
 from selenium import webdriver
 from selenium.webdriver.chrome import options
 from selenium.webdriver.chrome.options import Options
@@ -7,12 +8,15 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import threading
 import random
+import json
+from web3 import Web3
 
 proxies = {
       "http": "http://3fc2340246f74c12acc93f293f1a69d7:@proxy.crawlera.com:8011/",
         "https": "http://3fc2340246f74c12acc93f293f1a69d7:@proxy.crawlera.com:8011/",
 }
 
+#Xpaths for the links
 HugoButtonsDict = {
     1:"/html/body/app-root/div[2]/div/main/app-exchange/div/app-pairexplorer/app-layout/div/div/div[1]/div[1]/h3/div/div[1]/a[2]", 
     2: "/html/body/app-root/div[2]/div/main/app-exchange/div/app-pairexplorer/app-layout/div/div/div[1]/div[1]/h3/div/div[1]/a[3]", 
@@ -26,8 +30,9 @@ cryptos = []
 timeStopProgram = 60 * 60 * 24
 timeToWait = 60 * 10
 timeRunningProgram = 0
-timeASleep = 5
+timeASleep = 45
 print("[+] Dextools Bot Starting")
+Metamask = "/html/body/app-root/div[2]/div/main/app-exchange/div/app-pairexplorer/app-layout/div/div/div[2]/div[2]/div/app-aggregator/section/div/div/div/div/div/div/div/div[4]/button"
 options = Options()
 options.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -48,6 +53,7 @@ def findAllCryptosInBanner(substring):
         if substring in items.text: 
             print('Found')
             print('Hugo finance on place: {0}'.format(counter))
+            print(items.size)
         counter += 1
     except: 
         print("An exception occured")
@@ -78,26 +84,26 @@ def checktop10spot():
 
 def main(RunTime): 
     while (checkTimeProgram(RunTime)):
+        time.sleep(timeASleep)
         driver.get(url)
         print ('[+] Your IP was for this refresh : '+str(ma_ip()))
-        findAllCryptosInBanner('(Hugo Finance)')
-        time.sleep(timeASleep)
+        connectToMetamask()
+        #findAllCryptosInBanner('Hugo Finance')
         RunTime += timeToWait
         number = randomNumber(1, HugoButtonsDict.__len__())
         driver.find_element_by_xpath(HugoButtonsDict[number]).click()
 
-        
+def SetUpWeb3Client(url, address): 
+        web3 = Web3(Web3.HTTPProvider(url))
 
+def connectToMetamask(): 
+    buyButton = "/html/body/app-root/div[2]/div/main/app-exchange/div/app-pairexplorer/app-layout/div/div/div[2]/div[2]/ul/li[1]/span/button"
+    buy = driver.find_element_by_xpath(buyButton)
+    buy.click()
+    print(buyButton)
+    time.sleep(5)
+ 
 if __name__ == "__main__": 
     main(timeRunningProgram)
 
-# Een timer instellen van hoe lang het program draait
-# Altijd checken van time 
-# Als time reached program ==> 
 
-
-
-# mAKEN van een automatische check of het algoritme gefoold wordt of niet
-# Om het uur de top 10 checken van de banner 
-# Als Hugo positie in banner verschijnt
-# Dan Email versturen naar mij om waarschuwing te geven 
